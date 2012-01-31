@@ -1,0 +1,46 @@
+Documentation
+=============
+
+Adapt wiki page:
+  - modify model (especially the MigrationPlan and stuff)
+  - add the CLI and the arguments needed for a first working version
+
+
+Maybe: Dependency Injection Container
+==============================
+Add Pimple or similar DI-container, considering injection mode
+
+Unittests
+=========
+Add new MockFactory for classes like filesystem, database
+
+
+Utils
+=====
+Implement Xml-DataAccess instead of using Dom-classes directly
+
+
+Migration Plan
+==============
+1. Strategy: Diff -> forward/backward
+2. Strategy: backto last point of equality and than forth
+
+
+Task
+====
+1. perform SQL (do/undo)
+2. update changelog
+
+
+Sourcecode Documentation
+========================
+* set author
+* add licence (reconsider licence)
+* add documentation PHPDoc
+
+Database
+========
+abstract Database extended by MySQL, SQLite, etc.
+--> $database = Database::createByDns('mysql:xxx:yyy');
+
+Derived classes hold dbms specific Queries.

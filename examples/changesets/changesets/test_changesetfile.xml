@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<changeset>
+    <forward>
+        <sql>SELECT 1</sql>
+        <sql>SELECT 2</sql>
+        <sql>SELECT 3</sql>
+    </forward>
+    <backward>
+        <sql>SELECT 1</sql>
+        <sql>SELECT 2</sql>
+        <sql>SELECT 3</sql>
+    </backward>
+</changeset>

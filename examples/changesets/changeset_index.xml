@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE changesets SYSTEM "manifest.dtd">
+<changesets>
+    <changeset>TestChangeset1</changeset>
+    <changeset>TestChangeset2</changeset>
+    <changeset>TestChangeset3</changeset>
+</changesets>
