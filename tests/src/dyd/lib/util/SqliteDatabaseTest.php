@@ -18,17 +18,8 @@ class SqliteDatabaseTest extends \PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-<<<<<<< TREE
-<<<<<<< TREE
-        $this->pdo = new \PDO('sqlite::memory:');
-        $this->database = new SqliteDatabase($this->pdo);
-=======
-        $pdo = new \PDO('sqlite:memory:');
->>>>>>> MERGE-SOURCE
-=======
         $pdo = new \PDO('sqlite:memory');
         $this->database = new SqliteDatabase($pdo);
->>>>>>> MERGE-SOURCE
     }
 
     public function testCreateChangelogTable()

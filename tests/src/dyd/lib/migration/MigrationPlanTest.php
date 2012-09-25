@@ -220,7 +220,7 @@ class MigrationPlanTest extends \PHPUnit_Framework_TestCase
 
     private function getMockForChangesetIndex(array $returnValue)
     {
-        $mock = $this->getMock('dyd\lib\ChangesetIndex', array(), array(), '', false);
+        $mock = $this->getMock('Dyd\lib\ChangesetIndex', array(), array(), '', false);
         $mock
             ->expects($this->any())
             ->method('getChangesetNames')
@@ -231,7 +231,7 @@ class MigrationPlanTest extends \PHPUnit_Framework_TestCase
 
     private function getMockForDatabaseChangelog(array $returnValue)
     {
-        $mock = $this->getMock('dyd\lib\DatabaseChangelog', array(), array(), '', false);
+        $mock = $this->getMock('Dyd\lib\Changeset', array(), array(), '', false);
         $mock
             ->expects($this->any())
             ->method('getChangelogNames')

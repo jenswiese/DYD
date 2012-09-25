@@ -1,15 +1,16 @@
 <?php
 
-namespace dyd\lib\util;
+namespace Dyd\Util;
 
 /**
- * class provides accesses to the filesystem
+ * Class provides access to the filesystem
  *
  * @author Jens Wiese <jens@dev.lohering.de>
  */
 class Filesystem
 {
-    public function __construct() {
+    public function __construct()
+    {
     }
 
     /**

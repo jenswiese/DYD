@@ -1,5 +1,6 @@
 <?php
-namespace dyd\lib\util;
+
+namespace Dyd\Util;
 
 /**
  * Description of Database
@@ -62,6 +63,11 @@ class Database implements DatabaseInterface
         return $this->database->deleteChangelog($name);
     }
 
+    public function executeQuery($sql)
+    {
+
+    }
+
     /**
      *
      * @param string $dsn
@@ -72,7 +78,7 @@ class Database implements DatabaseInterface
         $pdo = new \PDO($dsn);
         $this->driverName = $pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
 
-        $className = "dyd\lib\util\\" . ucfirst($this->driverName) . 'Database';
+        $className = "Dyd\lib\Util\\" . ucfirst($this->driverName) . 'Database';
         if (!class_exists($className)) {
             throw new \Exception("Class '" . $className . "' does not exist.");
         }

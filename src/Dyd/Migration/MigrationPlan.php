@@ -40,7 +40,7 @@ class MigrationPlan //implements \RecursiveIterator
     }
 
     /**
-     * returns migration tasks
+     * returns Migration tasks
      *
      * @return array of MigrationTask
      */

@@ -1,10 +1,10 @@
 <?php
-namespace dyd\lib\migration\task;
+namespace Dyd\Migration\Task;
 
-use dyd\lib\ChangesetEntry;
+use Dyd\Changeset\Entry;
 
 /**
- * Description of MigrationTask
+ * Class XXX
  *
  * @author Jens Wiese <jens@dev.lohering.de>
  */

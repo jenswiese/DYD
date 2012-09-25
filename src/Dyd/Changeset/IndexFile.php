@@ -1,27 +1,29 @@
 <?php
 
-namespace dyd\lib;
+namespace Dyd\Changeset;
 
-use dyd\lib\util\Filesystem;
+use \Dyd\Util\Filesystem;
 
 /**
- * Representation of index file
+ * Class represents index file
  *
  * @author Jens Wiese <jens@dev.lohering.de>
  */
-class ChangesetIndex
+class IndexFile
 {
     protected $filesystem;
     protected $changesetNames = array();
 
     /**
+     * Constructor of the class
+     *
      * @param string $filename
      * @param Filesystem $filesystem
      */
-    public function __construct($filename, Filesystem $filesystem = null)
+    public function __construct($filename)
     {
         $this->filename = $filename;
-        $this->filesystem = is_null($filesystem) ? new Filesystem() : $filesystem;
+        $this->filesystem = \Dyd\Util\ServiceLocator::getFilesystem();
     }
 
     /**
@@ -45,6 +47,8 @@ class ChangesetIndex
      */
     private function readChangesetEntriesFromFile()
     {
+        // @todo: Implement handling of simple textfiles instead of xml
+
         $content = $this->filesystem->readFromFile($this->filename);
         $entries = array();
 

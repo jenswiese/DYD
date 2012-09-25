@@ -10,7 +10,7 @@ class ChangesetEntryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreateChangeset()
     {
-        $filesystemStub = $this->getMock('dyd\lib\util\Filesystem');
+        $filesystemStub = $this->getMock('Dyd\lib\Util\Filesystem');
         $filesystemStub
             ->expects($this->any())
             ->method('readFromFile')
@@ -25,7 +25,7 @@ class ChangesetEntryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateChangesetFromEmptyFile()
     {
-        $filesystemStub = $this->getMock('dyd\lib\util\Filesystem');
+        $filesystemStub = $this->getMock('Dyd\lib\Util\Filesystem');
         $filesystemStub
             ->expects($this->any())
             ->method('readFromFile')
@@ -47,7 +47,7 @@ class ChangesetEntryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateChangesetFromInvalidXml()
     {
-        $filesystemStub = $this->getMock('dyd\lib\util\Filesystem');
+        $filesystemStub = $this->getMock('Dyd\lib\Util\Filesystem');
         $filesystemStub
             ->expects($this->any())
             ->method('readFromFile')
@@ -69,7 +69,7 @@ class ChangesetEntryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateChangesetWithEmptySqlNode()
     {
-        $filesystemStub = $this->getMock('dyd\lib\util\Filesystem');
+        $filesystemStub = $this->getMock('Dyd\lib\Util\Filesystem');
         $filesystemStub
             ->expects($this->any())
             ->method('readFromFile')
@@ -91,7 +91,7 @@ class ChangesetEntryTest extends \PHPUnit_Framework_TestCase
 
     public function testTrimmingOfSqlString()
     {
-        $filesystemStub = $this->getMock('dyd\lib\util\Filesystem');
+        $filesystemStub = $this->getMock('Dyd\lib\Util\Filesystem');
         $filesystemStub
             ->expects($this->any())
             ->method('readFromFile')

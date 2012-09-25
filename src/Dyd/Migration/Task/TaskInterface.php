@@ -2,7 +2,7 @@
 namespace dyd\lib\migration\task;
 
 /**
- * Interface for migration tasks
+ * Interface for Migration tasks
  *
  * @author Jens Wiese <jens@dev.lohering.de>
  */

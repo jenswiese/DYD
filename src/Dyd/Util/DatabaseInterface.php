@@ -23,5 +23,3 @@ interface DatabaseInterface
 
     public function deleteChangelog($name);
 }
-
-?>

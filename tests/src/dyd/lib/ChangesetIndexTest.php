@@ -13,7 +13,7 @@ class ChangesetIndexTest extends PHPUnit_Framework_TestCase
         $expectedChangesetNames = array('TestChangeset1', 'TestChangeset2', 'TestChangeset3');
         $testIndexXml = $this->getTestIndexXml($expectedChangesetNames);
 
-        $filesystemStub = $this->getMock('dyd\lib\util\Filesystem');
+        $filesystemStub = $this->getMock('Dyd\lib\Util\Filesystem');
         $filesystemStub
             ->expects($this->any())
             ->method('readFromFile')
@@ -30,7 +30,7 @@ class ChangesetIndexTest extends PHPUnit_Framework_TestCase
         $expectedChangesetNames = array('TestChangeset1', 'TestChangeset1');
         $testIndexXml = $this->getTestIndexXml($expectedChangesetNames);
 
-        $filesystemStub = $this->getMock('dyd\lib\util\Filesystem');
+        $filesystemStub = $this->getMock('Dyd\lib\Util\Filesystem');
         $filesystemStub
             ->expects($this->any())
             ->method('readFromFile')
@@ -57,7 +57,7 @@ class ChangesetIndexTest extends PHPUnit_Framework_TestCase
         $expectedChangesetNames = array('TestChangeset1', '');
         $testIndexXml = $this->getTestIndexXml($expectedChangesetNames);
 
-        $filesystemStub = $this->getMock('dyd\lib\util\Filesystem');
+        $filesystemStub = $this->getMock('Dyd\lib\Util\Filesystem');
         $filesystemStub
             ->expects($this->any())
             ->method('readFromFile')
@@ -83,7 +83,7 @@ class ChangesetIndexTest extends PHPUnit_Framework_TestCase
     {
         $xmlContent = '<foo><changeset></bar>';
 
-        $filesystemStub = $this->getMock('dyd\lib\util\Filesystem');
+        $filesystemStub = $this->getMock('Dyd\lib\Util\Filesystem');
         $filesystemStub
             ->expects($this->any())
             ->method('readFromFile')

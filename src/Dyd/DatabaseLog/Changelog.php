@@ -1,27 +1,27 @@
 <?php
 
-namespace dyd\lib;
+namespace Dyd\DatabaseLog;
 
-use dyd\lib\util\Database;
+use dyd\Util\Database;
 
 /**
  * Class represents changelog of database
  *
  * @author Jens Wiese <jens@dev.lohering.de>
  */
-class DatabaseChangelog
+class Changelog
 {
     protected $database;
 
-    public function __construct(Database $database = null)
+    public function __construct()
     {
-        $this->database = $database;
+        $this->database = \Dyd\Util\ServiceLocator::getDatabase();
     }
 
     /**
-     * returns array of ChangelogEntry names
+     * Returns array of ChangelogEntry names
      *
-     * @return array of Changelog-names
+     * @return array of DatabaseLog-names
      */
     public function getChangelogNames()
     {

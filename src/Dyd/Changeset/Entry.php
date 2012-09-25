@@ -1,14 +1,15 @@
 <?php
-namespace dyd\lib;
 
-use dyd\lib\util\Filesystem;
+namespace Dyd\Changeset;
+
+use Dyd\Util\Filesystem;
 
 /**
- * Description of ChangesetEntry
+ * Class represents entry in Changeset\Index
  *
  * @author Jens Wiese <jens@dev.lohering.de>
  */
-class ChangesetEntry
+class Entry
 {
     const CHANGE_TYPE_FORWARD = 'sql';
     const CHANGE_TYPE_UNDO = 'undo';
@@ -18,10 +19,10 @@ class ChangesetEntry
     protected $undoSql;
     protected $filesystem;
 
-    public function __construct($filename, Filesystem $filesystem = null)
+    public function __construct($filename)
     {
         $this->name = $filename;
-        $this->filesystem = is_null($filesystem) ? new Filesystem() : $filesystem;
+        $this->filesystem = \Dyd\Util\ServiceLocator::getFilesystem();
         $this->sql = $this->readSqlFromChangesetFile($filename, self::CHANGE_TYPE_FORWARD);
         $this->undoSql = $this->readSqlFromChangesetFile($filename, self::CHANGE_TYPE_UNDO);
     }
