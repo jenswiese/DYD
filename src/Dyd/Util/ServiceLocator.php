@@ -60,4 +60,14 @@ class ServiceLocator
 
         return self::$instances['database'];
     }
+
+    /**
+     * Resets all instances
+     *
+     * @return void
+     */
+    public static function reset()
+    {
+        self::$instances = null;
+    }
 }

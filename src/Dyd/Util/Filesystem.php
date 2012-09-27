@@ -9,20 +9,23 @@ namespace Dyd\Util;
  */
 class Filesystem
 {
+    /**
+     * Constructor of the class
+     */
     public function __construct()
     {
     }
 
     /**
-     * reads and returns file content
+     * Reads and returns file content
      *
      * @param string $filename
-     * @throws Exception
+     * @throws \Exception
      * @return string
      */
     public function readFromFile($filename)
     {
-        if(!file_exists($filename)) {
+        if (!file_exists($filename)) {
             throw new \Exception('File "' . $filename . '" does not exist.');
         }
         $content = file_get_contents($filename);

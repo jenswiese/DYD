@@ -1,12 +1,13 @@
 <?php
-namespace dyd\lib\migration\task;
+
+namespace Dyd\Migration\Task;
 
 /**
  * Description of MigrationTask
  *
  * @author Jens Wiese <jens@dev.lohering.de>
  */
-class UndoTask implements TaskInterface
+class RollbackChangeTask implements TaskInterface
 {
     protected $changelogName;
 

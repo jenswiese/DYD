@@ -1,6 +1,6 @@
 <?php
 
-namespace Dyd\DatabaseLog;
+namespace Dyd\Changelog;
 
 use dyd\Util\Database;
 
@@ -9,7 +9,7 @@ use dyd\Util\Database;
  *
  * @author Jens Wiese <jens@dev.lohering.de>
  */
-class Changelog
+class ChangelogTable
 {
     protected $database;
 
@@ -21,7 +21,7 @@ class Changelog
     /**
      * Returns array of ChangelogEntry names
      *
-     * @return array of DatabaseLog-names
+     * @return array of Changelog-names
      */
     public function getChangelogNames()
     {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Dyd\DatabaseLog\Entry;
+namespace Dyd\Changelog;
 
 /**
  * Class represents entry in database log
  *
  * @author Jens Wiese <jens@dev.lohering.de>
  */
-class Entry
+class ChangelogEntry
 {
     protected $name;
     protected $backwardSql;

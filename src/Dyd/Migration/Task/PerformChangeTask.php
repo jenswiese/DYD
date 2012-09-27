@@ -1,4 +1,5 @@
 <?php
+
 namespace Dyd\Migration\Task;
 
 use Dyd\Changeset\Entry;
@@ -8,7 +9,7 @@ use Dyd\Changeset\Entry;
  *
  * @author Jens Wiese <jens@dev.lohering.de>
  */
-class DoTask implements TaskInterface
+class PerformChangeTask implements TaskInterface
 {
     protected $changesetName;
 
