@@ -10,12 +10,15 @@ use Dyd\Changeset\ChangesetEntry;
  */
 class ChangesetEntryTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Test creation of Changeset
+     */
     public function testCreateChangeset()
     {
         $fileContent = <<< EOF
 SELECT 1;
 --//@UNDO
-DELETE 1
+DELETE 1;
 EOF;
 
         $filesystemMock = $this->getFilesystemMock($fileContent);
@@ -27,9 +30,15 @@ EOF;
         $this->assertEquals('DELETE 1;', $actualChangeset->getRollbackSql());
     }
 
-    public function testCreateChangesetFromEmptyFile()
+    /**
+     * Test creation of Changeset with missing UNDO-token
+     */
+    public function testCreateChangesetWithMissingUndoToken()
     {
-        $fileContent = '';
+        $fileContent = <<< EOF
+SELECT 1;
+DELETE 1;
+EOF;
 
         $filesystemMock = $this->getFilesystemMock($fileContent);
 
@@ -37,7 +46,29 @@ EOF;
             new ChangesetEntry('TestChangeset.sql', $filesystemMock);
         } catch (\Exception $e) {
             $this->assertEquals(
-                'Could not read form file - it is empty.',
+                "File 'TestChangeset.sql' has no UNDO-token.",
+                $e->getMessage(),
+                'Wrong file format should cause appropriate exception.'
+            );
+            return;
+        }
+
+        $this->fail('File with wrong format should throw exception.');
+
+    }
+
+    /**
+     * Test creation of Changeset with empty file
+     */
+    public function testCreateChangesetWithEmptyFile()
+    {
+        $filesystemMock = $this->getFilesystemMock('');
+
+        try {
+            new ChangesetEntry('TestChangeset.sql', $filesystemMock);
+        } catch (\Exception $e) {
+            $this->assertEquals(
+                'File is empty.',
                 $e->getMessage(),
                 'Empty file should cause appropriate exception.'
             );
@@ -47,28 +78,61 @@ EOF;
         $this->fail('Empty file should throw exception.');
     }
 
-//    public function testCreateChangesetWithEmptySqlNode()
-//    {
-//        $filesystemStub = $this->getMock('Dyd\lib\Util\Filesystem');
-//        $filesystemStub
-//            ->expects($this->any())
-//            ->method('readFromFile')
-//            ->will($this->returnValue($this->getTestChangesetXml('', '')));
-//
-//        try {
-//            $actualChangeset = new ChangesetEntry('TestChangeset1', $filesystemStub);
-//        } catch (Exception $e) {
-//            $this->assertEquals(
-//                "Node '/changeset/sql' is empty.",
-//                $e->getMessage(),
-//                'Empty sql-node should cause appropriate exception.'
-//            );
-//            return;
-//        }
-//
-//        $this->fail('Empty file should throw exception.');
-//    }
+    /**
+     * Test creation of Changeset that does not contain SQL
+     */
+    public function testCreateChangesetWithoutChangeSql()
+    {
+        $fileContent = <<< EOF
+--//@UNDO
+DELETE FROM foo;
+EOF;
 
+        $filesystemMock = $this->getFilesystemMock($fileContent);
+
+        try {
+            new ChangesetEntry('TestChangeset.sql', $filesystemMock);
+        } catch (\Exception $e) {
+            $this->assertEquals(
+                "File 'TestChangeset.sql' does not contain change-SQL.",
+                $e->getMessage(),
+                'File without SQL should cause appropriate exception.'
+            );
+            return;
+        }
+
+        $this->fail('File without SQL should throw exception.');
+    }
+
+    /**
+     * Test creation of Changeset that does not contain SQL
+     */
+    public function testCreateChangesetWithoutRollbackSql()
+    {
+        $fileContent = <<< EOF
+ALTER TABLE foo;
+--//@UNDO
+EOF;
+
+        $filesystemMock = $this->getFilesystemMock($fileContent);
+
+        try {
+            new ChangesetEntry('TestChangeset.sql', $filesystemMock);
+        } catch (\Exception $e) {
+            $this->assertEquals(
+                "File 'TestChangeset.sql' does not contain rollback-SQL.",
+                $e->getMessage(),
+                'File without SQL should cause appropriate exception.'
+            );
+            return;
+        }
+
+        $this->fail('File without SQL should throw exception.');
+    }
+
+    /**
+     * Test creation of Changeset that does not contain SQL
+     */
     public function testTrimmingOfSqlString()
     {
         $fileContent = <<< EOF

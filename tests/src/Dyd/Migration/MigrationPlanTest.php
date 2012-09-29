@@ -1,10 +1,10 @@
 <?php
-namespace dyd\lib\migration;
+namespace Dyd\Migration;
 
-use dyd\lib\ChangesetIndex;
-use dyd\lib\DatabaseChangelog;
-use dyd\lib\migration\task\DoTask;
-use dyd\lib\migration\task\Undo;
+use \Dyd\Changeset\ChangesetIndexFile;
+use \Dyd\Changelog\ChangelogTable;
+use \Dyd\Migration\Task\PerformChangeTask;
+use \Dyd\Migration\Task\RollbackChangeTask;
 
 /**
  * Test class for MigrationPlan.
@@ -220,7 +220,7 @@ class MigrationPlanTest extends \PHPUnit_Framework_TestCase
 
     private function getMockForChangesetIndex(array $returnValue)
     {
-        $mock = $this->getMock('Dyd\lib\ChangesetIndex', array(), array(), '', false);
+        $mock = $this->getMock('\Dyd\Changeset\ChangesetIndexFile', array(), array(), '', false);
         $mock
             ->expects($this->any())
             ->method('getChangesetNames')
@@ -231,7 +231,7 @@ class MigrationPlanTest extends \PHPUnit_Framework_TestCase
 
     private function getMockForDatabaseChangelog(array $returnValue)
     {
-        $mock = $this->getMock('Dyd\lib\Changeset', array(), array(), '', false);
+        $mock = $this->getMock('\Dyd\Changelog\ChangelogTable', array(), array(), '', false);
         $mock
             ->expects($this->any())
             ->method('getChangelogNames')

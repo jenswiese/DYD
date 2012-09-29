@@ -2,7 +2,7 @@
 
 namespace Dyd\Changelog;
 
-use dyd\Util\Database;
+use \Dyd\Util\Database;
 
 /**
  * Class represents changelog of database
@@ -13,9 +13,14 @@ class ChangelogTable
 {
     protected $database;
 
-    public function __construct()
+    /**
+     * Constructor of the class
+     *
+     * @param \Dyd\Util\Database $database
+     */
+    public function __construct(Database $database)
     {
-        $this->database = \Dyd\Util\ServiceLocator::getDatabase();
+        $this->database = $database;
     }
 
     /**
@@ -27,17 +32,18 @@ class ChangelogTable
     {
         $names = array();
         foreach ($this->database->retrieveChangelogs() as $changelog) {
-            array_push($names, $changelog['name']);
+            $names[] = $changelog['name'];
         }
 
         return $names;
     }
 
     /**
-     * returns ChangelogEntry for given name
+     * Returns ChangelogEntry for given name
      *
      * @param string name
      * @return ChangelogEntry
+     * @throws \Exception
      */
     public function getChangelog($name)
     {
@@ -49,7 +55,7 @@ class ChangelogTable
 
         $entry = new ChangelogEntry();
         $entry->setName($changelogEntry['name']);
-        $entry->setBackwardSql($changelogEntry['backward_sql']);
+        $entry->setRollbackSql($changelogEntry['rollback_sql']);
         $entry->setCreatedAt($changelogEntry['created_at']);
         
         return $entry;

@@ -2,8 +2,6 @@
 
 namespace Dyd\Migration\Task;
 
-use Dyd\Changeset\Entry;
-
 /**
  * Class XXX
  *

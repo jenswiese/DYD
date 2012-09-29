@@ -1,5 +1,6 @@
 <?php
-namespace dyd\lib\migration\task;
+
+namespace Dyd\Migration\Task;
 
 /**
  * Interface for Migration tasks

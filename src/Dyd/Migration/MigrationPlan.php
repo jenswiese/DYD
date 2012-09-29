@@ -1,13 +1,12 @@
 <?php
 
-namespace dyd\lib\migration;
+namespace Dyd\Migration;
 
-use dyd\lib\ChangesetIndex;
-use dyd\lib\ChangesetEntry;
-use dyd\lib\DatabaseChangelog;
-use dyd\lib\ChangelogEntry;
-use dyd\lib\migration\task\DoTask;
-use dyd\lib\migration\task\UndoTask;
+use \Dyd\Changeset\ChangesetIndexFile;
+use \Dyd\Changeset\ChangesetEntry;
+use \Dyd\Changelog\ChangelogTable;
+use \Dyd\Migration\Task\PerformChangeTask;
+use \Dyd\Migration\Task\RollbackChangeTask;
 
 /**
  * Description of MigrationPlanner
@@ -22,11 +21,17 @@ class MigrationPlan //implements \RecursiveIterator
     protected $changesetEntries = array();
     protected $changelogEntries = array();
 
-    protected $doTasks = array();
-    protected $undoTasks = array();
+    protected $performChangeTasks = array();
+    protected $rollbackChangeTasks = array();
     protected $planStatus = self::STATUS_SAFE;
 
-    public function __construct(ChangesetIndex $index, DatabaseChangelog $changelog)
+    /**
+     * Constructor of the class
+     *
+     * @param \Dyd\Changeset\ChangesetIndexFile $index
+     * @param \Dyd\Changelog\ChangelogTable $changelog
+     */
+    public function __construct(ChangesetIndexFile $index, ChangelogTable $changelog)
     {
         $this->changesetEntries = $index->getChangesetNames();
         $this->changelogEntries = $changelog->getChangelogNames();
@@ -40,21 +45,19 @@ class MigrationPlan //implements \RecursiveIterator
     }
 
     /**
-     * returns Migration tasks
+     * Returns Migration tasks
      *
      * @return array of MigrationTask
      */
     public function getMigrationTasks()
     {
-// var_dump($this->undoTasks, $this->doTasks);exit;
-        $migrationTasks = array();
-        $migrationTasks = array_merge($this->undoTasks, $this->doTasks);
+        $migrationTasks = array_merge($this->rollbackChangeTasks, $this->performChangeTasks);
 
         return $migrationTasks;
     }
 
     /**
-     * returns status:
+     * Returns status:
      * - MigrationPlan::STATUS_SAFE or
      * - MigrationPlan::STATUS_UNSAFE
      *
@@ -62,55 +65,88 @@ class MigrationPlan //implements \RecursiveIterator
      */
     public function getPlanStatus()
     {
-       return $this->planStatus;
+        return $this->planStatus;
     }
 
+    /**
+     * Plans migration tasks
+     * by checking differences between index and database
+     *
+     * @return void
+     */
     protected function planMigration()
     {
         foreach ($this->changesetEntries as $changesetName) {
             if ($this->isChangesetNotDeployedYet($changesetName)) {
-                $this->addDoTask($changesetName);
+                $this->addPerformChangeTask($changesetName);
             }
         }
 
         foreach ($this->changelogEntries as $changelogName) {
             if ($this->isChangelogNotInChangesetEntries($changelogName)) {
-                $this->addUndoTask($changelogName);
+                $this->addRollbackTask($changelogName);
             }
         }
     }
 
-    protected function isChangesetDeployedInOrder($index)
+    /**
+     * Checks whether or not Changeset is deployed in order
+     *
+     * @param $indexOfEntry
+     * @return boolean
+     */
+    protected function isChangesetDeployedInOrder($indexOfEntry)
     {
-        if (!isset($this->changelogEntries[$index])) {
+        if (!isset($this->changelogEntries[$indexOfEntry])) {
             return false;
         }
 
-        return ($this->changesetEntries[$index] == $this->changelogEntries[$index]);
+        return ($this->changesetEntries[$indexOfEntry] == $this->changelogEntries[$indexOfEntry]);
     }
 
+    /**
+     * Checks whether or not Changeset is deployed already
+     *
+     * @param $changesetName
+     * @return boolean
+     */
     protected function isChangesetNotDeployedYet($changesetName)
     {
         return (false === array_search($changesetName, $this->changelogEntries));
     }
 
+    /**
+     * Checks whether a deployed Changeset is not longer in index
+     *
+     * @param $changelogName
+     * @return bool
+     */
     protected function isChangelogNotInChangesetEntries($changelogName)
     {
         return (false === array_search($changelogName, $this->changesetEntries));
     }
 
-    protected function addDoTask($name)
+    /**
+     * Adds PerformChangeTask to migration plan
+     *
+     * @param $name
+     */
+    protected function addPerformChangeTask($name)
     {
-        $doTask = new DoTask($name);
-        array_push($this->doTasks, $doTask);
+        $task = new PerformChangeTask($name);
+        array_push($this->performChangeTasks, $task);
     }
 
-    protected function addUndoTask($name)
+    /**
+     * Adds RollbackChangeTask to migration plan
+     *
+     * @param $name
+     */
+    protected function addRollbackTask($name)
     {
         $this->planStatus = self::STATUS_UNSAFE;
-        
-        $undoTask = new UndoTask($name);
-        array_unshift($this->undoTasks, $undoTask);
-    }
 
+        $task = new RollbackChangeTask($name);
+        array_unshift($this->rollbackChangeTasks, $task);
+    }
 }

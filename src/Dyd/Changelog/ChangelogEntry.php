@@ -10,10 +10,11 @@ namespace Dyd\Changelog;
 class ChangelogEntry
 {
     protected $name;
-    protected $backwardSql;
+    protected $rollbackSql;
     protected $createdAt;
 
-    public function __construct() {
+    public function __construct()
+    {
     }
 
     public function setName($name)
@@ -21,9 +22,9 @@ class ChangelogEntry
         $this->name = $name;
     }
 
-    public function setBackwardSql($backwardSql)
+    public function setRollbackSql($rollbackSql)
     {
-        $this->backwardSql = $backwardSql;
+        $this->rollbackSql = $rollbackSql;
     }
 
     public function setCreatedAt($createdAt)
@@ -36,9 +37,9 @@ class ChangelogEntry
         return $this->name;
     }
 
-    public function getBackwardSql()
+    public function getRollbackSql()
     {
-        return $this->backwardSql;
+        return $this->rollbackSql;
     }
 
     public function getCreatedAt()

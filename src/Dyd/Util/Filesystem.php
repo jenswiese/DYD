@@ -28,6 +28,7 @@ class Filesystem
         if (!file_exists($filename)) {
             throw new \Exception('File "' . $filename . '" does not exist.');
         }
+
         $content = file_get_contents($filename);
 
         return $content;

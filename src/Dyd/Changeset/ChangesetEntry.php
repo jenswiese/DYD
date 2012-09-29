@@ -75,14 +75,19 @@ class ChangesetEntry
     private function readSqlFromChangesetFile($filename)
     {
         $content = $this->filesystem->readFromFile($filename);
+
+        if (empty($content)) {
+            throw new \Exception('File is empty.');
+        }
+
         $contentToken = $this->splitFileContent($content);
 
         if ('' == $contentToken[self::CHANGESET_SQL]) {
-            throw new \Exception("'" . $filename . "' doesn't contain change sql.");
+            throw new \Exception("File '" . $filename . "' does not contain change-SQL.");
         }
 
         if ('' == $contentToken[self::ROLLBACK_SQL]) {
-            throw new \Exception("'" . $filename . "' doesn't contain rollback sql.");
+            throw new \Exception("File '" . $filename . "' does not contain rollback-SQL.");
         }
 
         $this->changeSql = $contentToken[self::CHANGESET_SQL];
@@ -96,10 +101,16 @@ class ChangesetEntry
      * @return array with two elements:
      *         self::CHANGE_TYPE_FORWARD,
      *         self::CHANGE_TYPE_UNDO
+     * @throws \Exception
      */
     private function splitFileContent($content)
     {
-        $content = strtok($content, self::UNDO_TOKEN);
+        $hasNoUndoToken = (false === strpos($content, self::UNDO_TOKEN));
+        if ($hasNoUndoToken) {
+            throw new \Exception("File '" . $this->name . "' has no UNDO-token.");
+        }
+
+        $content = explode(self::UNDO_TOKEN, $content);
 
         $token = array();
         $token[self::CHANGESET_SQL] = isset($content[0]) ? trim($content[0]) : '';
