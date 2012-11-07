@@ -13,22 +13,44 @@ use Symfony\Component\Config\FileLocator;
 class Config
 {
     /** @var string */
-    protected $configFile;
+    protected $configFilePath;
 
     /** @var array */
     protected $configuration;
 
+    /** @var array */
+    protected $databases = array();
+
     /**
-     *
+     * Constructor of the class
      */
-    function __construct()
+    public function __construct()
     {
         $currentDir = getcwd();
         $configDirectories = array($currentDir . '/config');
         $locator = new FileLocator($configDirectories);
+        $this->configFilePath = $locator->locate('dyd.conf');
+        $this->configuration = \Symfony\Component\Yaml\Yaml::parse($this->configFilePath);
+    }
 
-        $configFile = $locator->locate('dyd.conf');
+    /**
+     * Returns path to config file
+     *
+     * @return string
+     */
+    public function getConfigFilePath()
+    {
+        return $this->configFilePath;
+    }
 
-        $this->configuration = \Symfony\Component\Yaml\Yaml::parse($configFile);
+
+    /**
+     * Returns configured databases
+     *
+     * @return array
+     */
+    public function getDatabases()
+    {
+        return $this->configuration['databases'];
     }
 }

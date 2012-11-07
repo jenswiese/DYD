@@ -29,7 +29,7 @@ class ServiceLocator
      */
     public static function getPDO($dsn, $username = null, $passwd = null, $options = null)
     {
-        if (!self::$instances['pdo'] instanceof \PDO) {
+        if (isset(self::$instances['pdo']) && self::$instances['pdo'] instanceof \PDO) {
             return self::$instances['pdo'];
         }
 
