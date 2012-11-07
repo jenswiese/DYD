@@ -3,15 +3,18 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use Dyd\Console\Command\ConfigCommand;
 use Dyd\Console\Command\StatusCommand;
 use Dyd\Console\Command\DiffCommand;
 use Dyd\Console\Command\DeployCommand;
-use Symfony\Component\Console\Application;
+use Dyd\Console\Command\TestCommand;
 
-$application = new Application('DYD', '0.1-dev');
-$application->add(new StatusCommand());
-$application->add(new DiffCommand());
-$application->add(new DeployCommand());
+$config = new \Dyd\Console\Config();
+
+$application = new \Dyd\Console\Application($config);
+$application->add(new ConfigCommand());
+//$application->add(new StatusCommand());
+//$application->add(new DiffCommand());
+//$application->add(new DeployCommand());
+$application->add(new TestCommand());
 $application->run();
-
-?>

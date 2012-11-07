@@ -1,0 +1,16 @@
+dyd:
+
+  global:
+    logfile: "/var/log/dyd.log"
+    loglevel: "debug"
+
+  databases:
+    database_1:
+      changeset_index_file: "build/database_1.index"
+      dsn: "mysql:XXX:YYY@localhost:database_1"
+      logfile: "logfiles/database_1.log"
+#
+#    database_2:
+#      changeset_index_file: "database/database_2.index"
+#      dsn: "mysql:XXX:YYY@localhost:database_2"
+#      logfile: "logfiles/database_2.log"

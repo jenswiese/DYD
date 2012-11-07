@@ -1,14 +1,21 @@
 {
-    "name": "Dyd/Dyd",
+    "name": "jenswiese/dyd",
     "description": "Database Deployment",
+    "keywords": ["database", "deployment", "dbdeploy"],
+    "homepage": "http://github.com/jenswiese/DYD",
+    "type": "library",
+    "license": "MIT",
     "require": {
-        "symfony/console": "2.0.7",
+        "symfony/console": "2.1.3",
+        "symfony/config": "2.1.3",
+        "symfony/yaml": "2.1.3",
         "monolog/monolog": "1.2.1"
     },
     "authors": [
         {
             "name": "Jens Wiese",
-            "email": "jens@dev.lohering.de"
+            "email": "jens@dev.lohering.de",
+            "homepage": "http://dev.lohering.de"
         }
     ],
     "autoload": {

@@ -210,7 +210,7 @@ class MigrationPlanTest extends \PHPUnit_Framework_TestCase
 
         $tasks = array();
         foreach ($plan->getMigrationTasks() as $task) {
-            $taskType = ($task instanceof DoTask) ? 'Do' : 'Undo';
+            $taskType = ($task instanceof PerformChangeTask) ? 'Do' : 'Undo';
             $taskName = $taskType . ':' . $task->getName();
             array_push($tasks, $taskName);
         }

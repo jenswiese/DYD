@@ -1,6 +1,6 @@
 <?php
 
-namespace Dyd\Util;
+namespace Dyd\Util\Database;
 
 /**
  * Interface for Database representations

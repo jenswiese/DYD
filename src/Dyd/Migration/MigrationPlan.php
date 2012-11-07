@@ -51,9 +51,7 @@ class MigrationPlan //implements \RecursiveIterator
      */
     public function getMigrationTasks()
     {
-        $migrationTasks = array_merge($this->rollbackChangeTasks, $this->performChangeTasks);
-
-        return $migrationTasks;
+        return array_merge($this->rollbackChangeTasks, $this->performChangeTasks);
     }
 
     /**

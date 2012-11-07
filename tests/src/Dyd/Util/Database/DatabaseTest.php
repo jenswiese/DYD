@@ -1,6 +1,6 @@
 <?php
 
-namespace dyd\lib\util;
+namespace Dyd\Util\Database;
 
 /**
  * Test class for Database.
@@ -21,7 +21,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
         $dsn = 'invalid';
 
         try {
-            $database = new Database($dsn);
+            new Database($dsn);
         } catch (\PDOException $e) {
             $this->assertEquals('invalid data source name', $e->getMessage());
             return;
@@ -35,7 +35,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
         $dsn = 'unknown:/database';
 
         try {
-            $database = new Database($dsn);
+            new Database($dsn);
         } catch (\PDOException $e) {
             $this->assertEquals('could not find driver', $e->getMessage());
             return;

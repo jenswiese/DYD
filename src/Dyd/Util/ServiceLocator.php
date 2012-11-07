@@ -12,53 +12,28 @@ class ServiceLocator
 {
     protected static $instances = array();
 
-
-    /**
-     * Sets instance of Filesystem
-     *
-     * @param Dyd\Util\Filesystem $filesystem
-     */
-    public static function setFilesystem(Filesystem $filesystem)
-    {
-        self::$instances['filesystem'] = $filesystem;
-    }
-
-    /**
-     * Returns instance of Filesystem
-     *
-     * @return \Dyd\Util\Filesystem
-     */
-    public static function getFilesystem()
-    {
-        if (!self::$instances['filesystem'] instanceof Filesystem) {
-            self::$instances['filesystem'] = new Filesystem();
-        }
-
-        return self::$instances['filesystem'];
-    }
-
-    /**
+   /**
      * Sets instance of Database
      *
      * @param Dyd\Util\Database $database
      */
-    public static function setDatabase(Database $database)
+    public static function setPDO(\PDO $pdo)
     {
-        self::$instances['database'] = $database;
+        self::$instances['pdo'] = $pdo;
     }
 
     /**
-     * Returns instance of Filesystem
+     * Returns instance of PDO
      *
-     * @return \Dyd\Util\Filesystem
+     * @return \Dyd\Util\Database\DydPDO
      */
-    public static function getDatabase()
+    public static function getPDO($dsn, $username = null, $passwd = null, $options = null)
     {
-        if (!self::$instances['database'] instanceof Database) {
-            throw new \RuntimeException('Could not retrieve Database.');
+        if (!self::$instances['pdo'] instanceof \PDO) {
+            return self::$instances['pdo'];
         }
 
-        return self::$instances['database'];
+        return new \Dyd\Util\Database\DydPDO($dsn, $username, $passwd, $options);
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Dyd\Util;
+namespace Dyd\Util\Database;
 
 /**
  * Description of Database
@@ -75,10 +75,10 @@ class Database implements DatabaseInterface
      */
     private function createByDsn($dsn)
     {
-        $pdo = new \PDO($dsn);
+        $pdo = \Dyd\Util\ServiceLocator::getPDO($dsn);
         $this->driverName = $pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
 
-        $className = "Dyd\lib\Util\\" . ucfirst($this->driverName) . 'Database';
+        $className = "Dyd\Util\\" . ucfirst($this->driverName) . 'Database';
         if (!class_exists($className)) {
             throw new \Exception("Class '" . $className . "' does not exist.");
         }

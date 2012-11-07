@@ -1,13 +1,13 @@
 <?php
 
-namespace dyd\lib\util;
+namespace Dyd\Util\Database\Driver;
 
 /**
  * Description of Database
  *
  * @author Jens Wiese <jens@dev.lohering.de>
  */
-class SqliteDatabase implements DatabaseInterface
+class Sqlite implements DatabaseInterface
 {
     protected $pdo;
     protected $databaseName = 'dyd_changelog';

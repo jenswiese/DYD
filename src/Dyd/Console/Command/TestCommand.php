@@ -15,18 +15,21 @@ use \Symfony\Component\Console\Output\OutputInterface;
  * Time: 9:55 AM
  * To change this template use File | Settings | File Templates.
  */
-class StatusCommand extends Command
+class TestCommand extends Command
 {
     protected function configure()
     {
-        $this
-            ->setName('status')
-            ->setDescription('Displays status of configured database.');
+        $this->setName('test');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('<info>Status</info> of ...:');
-    }
+        $foo = new \Symfony\Component\Console\Helper\DialogHelper();
 
+        for ($i = 0; $i < 10; $i++) {
+//            $bar = $foo->ask($output, 'Frage: ', 'foo');
+//            $bar = $foo->askConfirmation($output, "Delete the system? ", false);
+//            $output->writeln($bar);
+        }
+    }
 }

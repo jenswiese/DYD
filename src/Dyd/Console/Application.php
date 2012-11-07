@@ -2,17 +2,26 @@
 
 namespace Dyd\Console;
 
-use Symfony\Component\Console\Application;
+use Dyd\Console\Config;
 
 /**
- * Created by JetBrains PhpStorm.
- * User: jens
- * Date: 9/26/12
- * Time: 8:09 AM
- * To change this template use File | Settings | File Templates.
+ * Class represents console application
+ *
+ * @author: Jens Wiese <jens@dev.lohering.de>
+ * @since: 2012-11-04
  */
-class Application extends Symfony\Component\Console\Application
+class Application extends \Symfony\Component\Console\Application
 {
+    /** @var \Dyd\Console\Config */
+    protected $config;
 
+    public function __construct(Config $config)
+    {
+        $name = "dyd";
+        $version = "0.1-dev";
 
+        $this->config = $config;
+
+        parent::__construct($name, $version);
+    }
 }
