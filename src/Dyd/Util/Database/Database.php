@@ -14,13 +14,37 @@ class Database implements DatabaseInterface
     protected $databaseName = 'dyd_changelog';
 
     /**
-     * Constructor
+     * Constructor of the class
      *
-     * @param string $dns
+     * @param string $dsn
+     * @param string $username
+     * @param string $passwd (default: null)
+     * @throws \Exception
      */
-    public function __construct($dsn)
+    public function __construct(\Dyd\Config\DatabaseConfig $config)
     {
-        $this->database = $this->createByDsn($dsn);
+        try {
+            $pdo = \Dyd\Util\ServiceLocator::getPDO(
+                $config->getDsn(),
+                $config->getUsername(),
+                $config->getPassword()
+            );
+            $this->driverName = $pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
+
+            $className = "Dyd\Util\Database\Driver\\" . ucfirst($this->driverName);
+            if (!class_exists($className)) {
+                throw new \Exception("Class '" . $className . "' does not exist.");
+            }
+
+            $this->database = new $className($pdo);
+        } catch (\Exception $e) {
+            // @todo: Log this exception
+        }
+    }
+
+    public function isAvailable()
+    {
+        return !is_null($this->database);
     }
 
     public function getDriver()
@@ -68,21 +92,4 @@ class Database implements DatabaseInterface
 
     }
 
-    /**
-     *
-     * @param string $dsn
-     * @return implementation of DatabaseInterface
-     */
-    private function createByDsn($dsn)
-    {
-        $pdo = \Dyd\Util\ServiceLocator::getPDO($dsn);
-        $this->driverName = $pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
-
-        $className = "Dyd\Util\\" . ucfirst($this->driverName) . 'Database';
-        if (!class_exists($className)) {
-            throw new \Exception("Class '" . $className . "' does not exist.");
-        }
-
-        return new $className($pdo);
-    }
 }

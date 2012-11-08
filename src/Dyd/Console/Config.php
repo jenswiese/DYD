@@ -43,14 +43,24 @@ class Config
         return $this->configFilePath;
     }
 
-
     /**
      * Returns configured databases
      *
-     * @return array
+     * @return array of DatabaseConfig
      */
     public function getDatabases()
     {
-        return $this->configuration['databases'];
+        $databaseConfigs = array();
+        foreach ($this->configuration['databases'] as $name => $database) {
+            $databaseConfig = new \Dyd\Config\DatabaseConfig();
+            $databaseConfig->setName($name);
+            $databaseConfig->setIndexFile($database['index']);
+            $databaseConfig->setDsn($database['dsn']);
+            $databaseConfig->setUsername($database['username']);
+            $databaseConfig->setPassword($database['passwd']);
+            $databaseConfigs[] = $databaseConfig;
+        }
+
+        return $databaseConfigs;
     }
 }

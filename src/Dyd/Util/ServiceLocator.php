@@ -29,11 +29,14 @@ class ServiceLocator
      */
     public static function getPDO($dsn, $username = null, $passwd = null, $options = null)
     {
-        if (isset(self::$instances['pdo']) && self::$instances['pdo'] instanceof \PDO) {
-            return self::$instances['pdo'];
+        $hash = md5($dsn);
+
+        if (!isset(self::$instances['pdo'][$hash])) {
+            self::$instances['pdo'][$hash] =
+                new \Dyd\Util\Database\DydPDO($dsn, $username, $passwd, $options);;
         }
 
-        return new \Dyd\Util\Database\DydPDO($dsn, $username, $passwd, $options);
+        return self::$instances['pdo'][$hash];
     }
 
     /**

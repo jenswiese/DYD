@@ -53,12 +53,8 @@ class InfoCommand extends Command
 
         $databases = $this->getApplication()->getConfig()->getDatabases();
         $databaseInfos = '';
-        foreach ($databases as $name => $database) {
-            $databaseInfos .= $this->getDatabaseInfo(
-                $name,
-                $database['index'],
-                $database['dsn']
-            );
+        foreach ($databases as $database) {
+            $databaseInfos .= $this->getDatabaseInfo($database);
         }
 
         $output = <<< EOT
@@ -66,7 +62,6 @@ $longVersion
 
 <comment>Configured Databases:</comment>
 $databaseInfos
-
 EOT;
 
 
@@ -80,17 +75,28 @@ EOT;
      * @param $dsn
      * @return string
      */
-    private function getDatabaseInfo($name, $indexFile, $dsn)
+    private function getDatabaseInfo(\Dyd\Config\DatabaseConfig $config)
     {
-        $indexFileExists = file_exists($indexFile);
+        $indexFileExists = file_exists($config->getIndexFile());
         $fileInfo = $indexFileExists ? '<info>exists</info>' : '<error>does not exists</error>';
-        $isConnected = false;
+
+        $database = new \Dyd\Util\Database\Database($config);
+        $isConnected = $database->isAvailable();
         $connectionStatus = $isConnected ? '<info>ok</info>' : '<error>not connected</error>';
+
+        $name = $config->getName();
+        $indexFile = $config->getIndexFile();
+        $dsn = $config->getDsn();
+        $username = $config->getUsername();
+        $passwordInfo = !is_null($config->getPassword()) ? 'yes' : 'no';
 
         $output = <<< EOT
   <comment>$name:</comment>
     <comment>index:</comment> $indexFile ($fileInfo)
     <comment>dsn:</comment> $dsn ($connectionStatus)
+    <comment>username:</comment> $username
+    <comment>password:</comment> $passwordInfo
+
 EOT;
 
         return $output;
@@ -129,17 +135,5 @@ EOT;
 EOT;
 
         return $output;
-    }
-
-    /**
-     * Intend a string by a given count of spaces
-     *
-     * @param $string
-     * @param $count
-     * @return string
-     */
-    private function intend($string, $count)
-    {
-        return str_pad($string, $count, ' ', STR_PAD_LEFT);
     }
 }

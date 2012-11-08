@@ -2,6 +2,8 @@
 
 namespace Dyd\Util\Database\Driver;
 
+use Dyd\Util\Database\DatabaseInterface;
+
 /**
  * Description of Database
  *
