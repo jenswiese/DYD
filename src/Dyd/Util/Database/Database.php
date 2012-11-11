@@ -11,14 +11,11 @@ class Database implements DatabaseInterface
 {
     protected $database;
     protected $driverName;
-    protected $databaseName = 'dyd_changelog';
 
     /**
      * Constructor of the class
      *
-     * @param string $dsn
-     * @param string $username
-     * @param string $passwd (default: null)
+     * @param \Dyd\Config\DatabaseConfig $config
      * @throws \Exception
      */
     public function __construct(\Dyd\Config\DatabaseConfig $config)
@@ -64,7 +61,7 @@ class Database implements DatabaseInterface
 
     public function retrieveChangelogs()
     {
-        return $this->database->createChangelogTable();
+        return $this->database->retrieveChangelogs();
     }
 
     public function retrieveChangelogByName($name)

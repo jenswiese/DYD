@@ -21,8 +21,4 @@ class DydPDO extends \PDO
     {
         parent::__construct($dsn, $username, $passwd, $options);
     }
-
-
-
-
 }
